@@ -1,0 +1,47 @@
+{
+  "fecha": "2026-06-10",
+  "condicion": "regular",
+  "digitos_detectados": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ]
+  ],
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-10.pdf",
+  "actualizado_utc": "2026-06-10T14:51:22Z",
+  "ok": true
+}
