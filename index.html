@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>¿Circulo hoy?</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="¿Circulo hoy?">
+<meta name="theme-color" content="#14101f">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%2314101f'/%3E%3Ccircle cx='90' cy='62' r='22' fill='%2334D399'/%3E%3Ccircle cx='90' cy='118' r='22' fill='%23FB7185'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#14101f; --surface:#1d1730; --surface-2:#261e3d;
+    --border:rgba(255,255,255,.09); --border-strong:rgba(255,255,255,.16);
+    --text:#ECE9F5; --muted:#9D95B8;
+    --accent:#8B7CF6;
+    --go:#34D399; --go-deep:#0f2f25;
+    --stop:#FB7185; --stop-deep:#33141d;
+    --warn:#FBBF24; --warn-deep:#322512;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:1.02rem}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--go)}
+  .dot.b{background:var(--stop);margin-left:-5px}
+  .gear{background:var(--surface);border:1px solid var(--border);color:var(--muted);width:40px;height:40px;border-radius:12px;font-size:1.2rem;cursor:pointer;line-height:1}
+  .gear:active{transform:scale(.94)}
+
+  /* aire badge */
+  .aire{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);
+    border-radius:14px;padding:11px 14px;margin-bottom:14px;font-size:.86rem}
+  .aire .lab{color:var(--muted);font-weight:500}
+  .aire .val{font-weight:700;font-family:var(--display);letter-spacing:-.01em;margin-left:auto;display:flex;align-items:center;gap:8px}
+  .aire .chip{width:10px;height:10px;border-radius:50%}
+  .c-bueno{color:var(--go)} .chip.c-bueno{background:var(--go)}
+  .c-regular{color:#5EEAD4} .chip.c-regular{background:#5EEAD4}
+  .c-alerta{color:var(--warn)} .chip.c-alerta{background:var(--warn)}
+  .c-preemergencia{color:#FB923C} .chip.c-preemergencia{background:#FB923C}
+  .c-emergencia{color:var(--stop)} .chip.c-emergencia{background:var(--stop)}
+  .c-desconocido{color:var(--muted)} .chip.c-desconocido{background:var(--muted)}
+
+  .hero{border-radius:24px;padding:30px 24px 26px;position:relative;overflow:hidden;border:1px solid var(--border-strong);background:var(--surface)}
+  .hero .eyebrow{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .verdict{font-family:var(--display);font-weight:700;letter-spacing:-.03em;line-height:.96;font-size:clamp(2.6rem,12.5vw,3.5rem);margin:14px 0 6px}
+  .reason{color:var(--text);opacity:.92;font-size:1.02rem;line-height:1.42;font-weight:500}
+  .reason b{font-weight:600}
+  .hero .glow{position:absolute;inset:auto -40% -60% -40%;height:200px;filter:blur(60px);opacity:.5;border-radius:50%;pointer-events:none}
+  .hero.go{background:linear-gradient(165deg,var(--go-deep),var(--surface) 70%)} .hero.go .verdict{color:var(--go)} .hero.go .glow{background:var(--go)}
+  .hero.stop{background:linear-gradient(165deg,var(--stop-deep),var(--surface) 70%)} .hero.stop .verdict{color:var(--stop)} .hero.stop .glow{background:var(--stop)}
+  .hero.warn{background:linear-gradient(165deg,var(--warn-deep),var(--surface) 70%)} .hero.warn .verdict{color:var(--warn)} .hero.warn .glow{background:var(--warn)}
+
+  .nowtag{display:inline-flex;align-items:center;gap:7px;margin-top:16px;background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:999px;padding:7px 13px;font-size:.82rem;color:var(--text);font-weight:500}
+  .nowtag a{color:var(--accent);text-decoration:none}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--stop);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(251,113,133,.6)}70%{box-shadow:0 0 0 9px rgba(251,113,133,0)}100%{box-shadow:0 0 0 0 rgba(251,113,133,0)}}
+
+  .section-label{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 4px 12px}
+  .week{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .day{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 4px;text-align:center}
+  .day .d{font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+  .day .digs{font-family:var(--display);font-weight:700;font-size:1.05rem;margin-top:7px}
+  .day.hit{border-color:var(--stop);background:linear-gradient(180deg,var(--stop-deep),var(--surface))} .day.hit .digs{color:var(--stop)}
+  .day.free .digs{color:var(--muted);opacity:.55}
+  .day.today{outline:2px solid var(--accent);outline-offset:1px}
+  .day .dot-today{display:none;width:5px;height:5px;border-radius:50%;background:var(--accent);margin:6px auto 0}
+  .day.today .dot-today{display:block}
+
+  .info{margin-top:24px;display:grid;gap:10px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:15px 16px}
+  .card h3{font-size:.92rem;font-weight:600;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+  .card p{font-size:.86rem;color:var(--muted);line-height:1.5}
+  .card p a{color:var(--accent);text-decoration:none}
+  .card.alert{border-color:rgba(251,191,36,.4);background:linear-gradient(165deg,var(--warn-deep),var(--surface) 80%)} .card.alert h3{color:var(--warn)}
+
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .22s;z-index:40}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;max-width:520px;margin:0 auto;background:var(--surface-2);border-radius:24px 24px 0 0;border-top:1px solid var(--border-strong);padding:24px 20px max(28px,env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s cubic-bezier(.3,.8,.3,1);max-height:88vh;overflow:auto}
+  .sheet.on{transform:translateY(0)}
+  .sheet h2{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.02em;margin-bottom:4px}
+  .sheet .sub{color:var(--muted);font-size:.86rem;margin-bottom:20px}
+  .field{margin-bottom:20px}
+  .field>label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:9px;letter-spacing:.02em}
+  .digits{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+  .digits button{aspect-ratio:1;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;font-family:var(--display);font-weight:700;font-size:1.15rem;cursor:pointer;transition:.12s}
+  .digits button:active{transform:scale(.92)}
+  .digits button.sel{background:var(--accent);border-color:var(--accent);color:#0c0a16}
+  .types{display:grid;gap:9px}
+  .types button{text-align:left;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:14px;padding:13px 15px;cursor:pointer;transition:.12s}
+  .types button .t{font-weight:600;font-size:.95rem}
+  .types button .s{font-size:.78rem;color:var(--muted);margin-top:3px;line-height:1.35}
+  .types button.sel{border-color:var(--accent);background:linear-gradient(165deg,rgba(139,124,246,.18),var(--surface))} .types button.sel .t{color:var(--accent)}
+  .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .seg button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:11px;padding:11px 4px;cursor:pointer;font-size:.82rem;font-weight:600;transition:.12s}
+  .seg button.sel{border-color:var(--accent);background:rgba(139,124,246,.16);color:var(--accent)}
+  .done{width:100%;margin-top:6px;background:var(--accent);color:#0c0a16;border:none;border-radius:14px;padding:15px;font-family:var(--display);font-weight:700;font-size:1rem;cursor:pointer}
+  .done:active{transform:scale(.98)}
+
+  .foot{text-align:center;color:var(--muted);font-size:.72rem;margin-top:26px;line-height:1.5;opacity:.8}
+  .foot a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+
+  <div class="top">
+    <div class="brand"><span class="dot"></span><span class="dot b"></span>¿Circulo hoy?</div>
+    <button class="gear" id="openCfg" aria-label="Configurar">⚙︎</button>
+  </div>
+
+  <div class="aire" id="aire">
+    <span class="lab">Calidad del aire hoy</span>
+    <span class="val c-desconocido" id="aireVal"><span class="chip c-desconocido"></span>—</span>
+  </div>
+
+  <div class="hero" id="hero">
+    <div class="eyebrow" id="dateLine">—</div>
+    <div class="verdict" id="verdict">—</div>
+    <div class="reason" id="reason">Configura tu patente para empezar.</div>
+    <div class="glow"></div>
+    <div id="nowSlot"></div>
+  </div>
+
+  <div class="section-label">Tu semana de restricción</div>
+  <div class="week" id="week"></div>
+
+  <div class="info" id="info"></div>
+
+  <div class="foot">
+    Período GEC: 1 mayo – 31 agosto 2026 · L–V (salvo festivos) 07:30–21:00 ·
+    Provincia de Santiago + San Bernardo y Puente Alto.<br>
+    Episodios: datos de <a href="https://airerm.mma.gob.cl/calidad-del-aire/" target="_blank">airerm.mma.gob.cl</a> (MMA). App referencial.
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet">
+    <h2>Tu vehículo</h2>
+    <div class="sub">Se guarda en tu teléfono. Lo cambias cuando quieras.</div>
+
+    <div class="field">
+      <label>Último dígito de tu patente</label>
+      <div class="digits" id="digitGrid"></div>
+    </div>
+    <div class="field">
+      <label>Tipo de vehículo</label>
+      <div class="types" id="typeGrid"></div>
+    </div>
+    <div class="field">
+      <label>Episodio ambiental</label>
+      <div class="seg" id="condGrid"></div>
+      <div class="sub" id="condHint" style="margin:9px 0 0;font-size:.78rem">Automático: lo toma de la declaración diaria del MMA.</div>
+    </div>
+    <button class="done" id="saveCfg">Listo</button>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  var mem={};
+  var store={
+    get:function(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}},
+    set:function(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
+  };
+
+  // ---- Reglas oficiales 2026 ----
+  var CAL_CAT   = {1:[8,9], 2:[0,1], 3:[2,3], 4:[4,5], 5:[6,7]};
+  var CAL_NOCAT = {1:[6,7,8,9], 2:[0,1,2,3], 3:[4,5,6,7], 4:[8,9,0,1], 5:[2,3,4,5]};
+  var FERIADOS  = ["2026-05-01","2026-05-21","2026-06-20","2026-06-29","2026-07-16","2026-08-15"];
+  var SEASON_START=new Date(2026,4,1), SEASON_END=new Date(2026,7,31,23,59,59);
+
+  var TYPES=[
+    {id:"cat_old",t:"Catalítico · sello verde antiguo",s:"Inscrito ANTES del 1 sep 2011. 2 dígitos por día (4 en emergencia)."},
+    {id:"cat_new",t:"Catalítico moderno",s:"Inscrito DESPUÉS del 1 sep 2011. Sin restricción por dígito, ni en episodios."},
+    {id:"no_cat", t:"Sin sello verde / no catalítico",s:"4 dígitos (6 en preemergencia, 8 en emergencia) + prohibición total dentro del anillo."}
+  ];
+  var CONDS=[{id:"auto",t:"Auto"},{id:"normal",t:"Normal"},{id:"preemergencia",t:"Preemerg."},{id:"emergencia",t:"Emerg."}];
+  var CONDLABEL={bueno:"Bueno",regular:"Regular",alerta:"Alerta",preemergencia:"Preemergencia",emergencia:"Emergencia",desconocido:"Sin dato"};
+
+  var cfg={
+    digit: store.get("rv_digit"),
+    type:  store.get("rv_type")||"cat_new",
+    cond:  store.get("rv_cond")||"auto"
+  };
+  if(cfg.digit!==null) cfg.digit=parseInt(cfg.digit,10);
+
+  var estado=null; // se llena desde data/estado.json
+
+  // ---------- helpers ----------
+  function pad(n){return n<10?"0"+n:""+n}
+  function ymd(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+  function isFeriado(d){return FERIADOS.indexOf(ymd(d))>=0}
+  function inSeason(d){return d>=SEASON_START&&d<=SEASON_END}
+  function withinHours(d){var m=d.getHours()*60+d.getMinutes();return m>=450&&m<1260}
+  var DAYNAMES=["dom","lun","mar","mié","jue","vie","sáb"];
+  var DAYFULL=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  var MONTHS=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  // condición efectiva: auto (desde MMA, sólo si es de hoy) o manual
+  function activeCond(){
+    if(cfg.cond==="auto"){
+      if(estado && estado.ok && estado.fecha===ymd(new Date())) return estado.condicion;
+      return null; // desconocida
+    }
+    return cfg.cond; // normal/preemergencia/emergencia
+  }
+  function isEpisode(c){return c==="preemergencia"||c==="emergencia"}
+
+  function pdfLink(txt){
+    if(estado && estado.pdf_url) return ' <a href="'+estado.pdf_url+'" target="_blank">'+(txt||"Ver declaración oficial")+'</a>';
+    return ' <a href="https://airerm.mma.gob.cl/calidad-del-aire/" target="_blank">'+(txt||"Ver declaración oficial")+'</a>';
+  }
+
+  // ---------- render ----------
+  function renderAire(){
+    var c = (cfg.cond==="auto") ? ((estado&&estado.ok&&estado.fecha===ymd(new Date()))?estado.condicion:"desconocido") : cfg.cond;
+    var el=document.getElementById("aireVal");
+    var cls="c-"+(c||"desconocido");
+    var lab=CONDLABEL[c]||"Sin dato";
+    if(cfg.cond!=="auto") lab+=" (manual)";
+    el.className="val "+cls;
+    el.innerHTML='<span class="chip '+cls+'"></span>'+lab;
+  }
+
+  function evaluate(){
+    var hero=document.getElementById("hero"),dateLine=document.getElementById("dateLine"),
+        verdict=document.getElementById("verdict"),reason=document.getElementById("reason"),
+        nowSlot=document.getElementById("nowSlot");
+    var now=new Date(),dow=now.getDay();
+    dateLine.textContent=DAYFULL[dow]+" "+now.getDate()+" de "+MONTHS[now.getMonth()];
+    renderAire();
+
+    if(cfg.digit===null||isNaN(cfg.digit)){
+      hero.className="hero"; verdict.textContent="Configura";
+      reason.innerHTML="Toca ⚙︎ e ingresa el <b>último dígito</b> de tu patente y el tipo de auto.";
+      nowSlot.innerHTML=""; renderWeek(); renderInfo("none"); return;
+    }
+
+    var cond=activeCond(), epi=isEpisode(cond);
+    var state="go", big="Circula", why="", nowHtml="";
+    var weekend=(dow===0||dow===6), feriado=isFeriado(now);
+
+    // ¿es un día en que rige la restricción para ESTE vehículo?
+    // catalíticos: sólo L-V (incluso en episodio). sin sello en episodio: cualquier día.
+    var noCatWeekendByEpisode = (cfg.type==="no_cat" && epi && (weekend||feriado));
+
+    if(!inSeason(now)){
+      state="go";big="Circula";why="Fuera del período de restricción (1 de mayo al 31 de agosto de 2026).";
+    } else if((weekend||feriado) && !noCatWeekendByEpisode){
+      state="go";big="Circula";why=(feriado?"Hoy es feriado.":"Es fin de semana.")+" No hay restricción"+(cfg.type==="no_cat"?" en día normal.":".");
+    } else {
+      // rige restricción
+      if(cfg.type==="cat_new"){
+        state="go";big="Circula";
+        why="Tu auto catalítico moderno no tiene restricción por dígito"+(epi?", ni siquiera en episodio crítico.":".");
+        if(epi) why+=" Aire en <b>"+CONDLABEL[cond]+"</b>: evita esfuerzo físico al aire libre.";
+      } else if(cfg.type==="cat_old"){
+        var base=CAL_CAT[dow]||[];
+        if(base.indexOf(cfg.digit)>=0){
+          state="stop";big="No circula";
+          why="Hoy ("+DAYFULL[dow]+") restringe dígitos <b>"+base.join(" y ")+"</b>. El tuyo es <b>"+cfg.digit+"</b>.";
+        } else if(cond==="emergencia"){
+          state="warn";big="Verifica";
+          why="<b>Emergencia ambiental.</b> A los catalíticos antiguos se les restringen <b>4 dígitos</b> (2 además del par normal). Confirma los dígitos del día."+pdfLink();
+        } else {
+          state="go";big="Circula";
+          why="Tu dígito <b>"+cfg.digit+"</b> no está restringido hoy"+(epi?" (en "+CONDLABEL[cond]+" los catalíticos antiguos mantienen el mismo par).":".");
+        }
+      } else { // no_cat
+        var base4=CAL_NOCAT[dow]||[];
+        var hitBase=(!weekend&&!feriado)&&base4.indexOf(cfg.digit)>=0;
+        if(hitBase){
+          state="stop";big="No circula";
+          why="Hoy restringe <b>"+base4.join(", ")+"</b> fuera del anillo. El tuyo es <b>"+cfg.digit+"</b>. Y dentro del anillo Américo Vespucio no puedes circular ningún día de restricción.";
+        } else if(epi){
+          state="warn";big="Verifica";
+          var nd=cond==="emergencia"?"8":"6";
+          why="<b>"+CONDLABEL[cond]+".</b> Sin sello verde la restricción sube a <b>"+nd+" dígitos</b> y aplica también fin de semana y festivos. Dentro del anillo: prohibido. Confirma los dígitos del día."+pdfLink();
+        } else {
+          state="go";big="Circula";
+          why="Tu dígito <b>"+cfg.digit+"</b> no está restringido hoy fuera del anillo. Ojo: dentro del anillo Américo Vespucio rige prohibición total para autos sin sello verde.";
+        }
+      }
+
+      if(state==="stop"){
+        if(withinHours(now)) nowHtml='<div class="nowtag"><span class="pulse"></span>Con restricción ahora · hasta las 21:00</div>';
+        else nowHtml='<div class="nowtag">🕒 '+((now.getHours()*60+now.getMinutes())<450?"Empieza a las 07:30":"Por hoy ya pasó (rige hasta 21:00)")+'</div>';
+      } else if(state==="warn"){
+        nowHtml='<div class="nowtag">🕒 Horario 07:30–21:00</div>';
+      }
+    }
+
+    hero.className="hero "+state; verdict.textContent=big; reason.innerHTML=why; nowSlot.innerHTML=nowHtml;
+    renderWeek(); renderInfo(state);
+  }
+
+  function renderWeek(){
+    var wrap=document.getElementById("week"); wrap.innerHTML="";
+    var todayDow=new Date().getDay();
+    for(var d=1;d<=5;d++){
+      var hit=(cfg.digit!==null&&!isNaN(cfg.digit))?
+        (cfg.type==="cat_old"?CAL_CAT[d].indexOf(cfg.digit)>=0:
+         cfg.type==="no_cat"?CAL_NOCAT[d].indexOf(cfg.digit)>=0:false):false;
+      var digs=cfg.type==="cat_old"?CAL_CAT[d].join(" "):cfg.type==="no_cat"?CAL_NOCAT[d].join(" "):"—";
+      wrap.innerHTML+='<div class="day '+(hit?"hit":"free")+(d===todayDow?" today":"")+'">'+
+        '<div class="d">'+DAYNAMES[d]+'</div><div class="digs">'+digs+'</div><div class="dot-today"></div></div>';
+    }
+  }
+
+  function renderInfo(state){
+    var info=document.getElementById("info"),html="";
+    var c=activeCond();
+    if(cfg.cond==="auto" && !(estado&&estado.ok&&estado.fecha===ymd(new Date()))){
+      html+='<div class="card alert"><h3>⚠︎ Episodio no confirmado hoy</h3><p>No se pudo leer la declaración del día. Se asume condición normal. Verifícalo en <a href="https://airerm.mma.gob.cl/calidad-del-aire/" target="_blank">airerm.mma.gob.cl</a>.</p></div>';
+    }
+    if(cfg.type==="no_cat"){
+      html+='<div class="card"><h3>Anillo Américo Vespucio</h3><p>Sin sello verde tienes prohibición total dentro del anillo en días y horario de restricción, sin importar tu dígito.</p></div>';
+    }
+    html+='<div class="card"><h3>Multa</h3><p>Circular con restricción cuesta entre 1 y 1,5 UTM (aprox. $70.000–$106.000). Más de 400 cámaras cruzan patentes con el Registro Civil.</p></div>';
+    if(estado&&estado.actualizado_utc&&estado.ok){
+      var dt=new Date(estado.actualizado_utc);
+      html+='<div class="card"><h3>Datos del aire</h3><p>Última actualización: '+dt.toLocaleString("es-CL")+'.'+pdfLink("Declaración del día")+'</p></div>';
+    }
+    info.innerHTML=html;
+  }
+
+  // ---------- settings ----------
+  function buildSheet(){
+    var dg=document.getElementById("digitGrid");dg.innerHTML="";
+    for(var i=0;i<10;i++){(function(n){var b=document.createElement("button");b.textContent=n;if(cfg.digit===n)b.className="sel";b.onclick=function(){cfg.digit=n;refreshSel();};dg.appendChild(b);})(i);}
+    var tg=document.getElementById("typeGrid");tg.innerHTML="";
+    TYPES.forEach(function(o){var b=document.createElement("button");if(cfg.type===o.id)b.className="sel";b.innerHTML='<div class="t">'+o.t+'</div><div class="s">'+o.s+'</div>';b.dataset.grp="type";b.dataset.id=o.id;b.onclick=function(){cfg.type=o.id;refreshSel();};tg.appendChild(b);});
+    var cg=document.getElementById("condGrid");cg.innerHTML="";
+    CONDS.forEach(function(o){var b=document.createElement("button");if(cfg.cond===o.id)b.className="sel";b.textContent=o.t;b.dataset.grp="cond";b.dataset.id=o.id;b.onclick=function(){cfg.cond=o.id;refreshSel();updHint();};cg.appendChild(b);});
+    updHint();
+  }
+  function updHint(){
+    document.getElementById("condHint").textContent =
+      cfg.cond==="auto" ? "Automático: lo toma de la declaración diaria del MMA." :
+      "Manual: ignora el dato automático hasta que lo vuelvas a Auto.";
+  }
+  function refreshSel(){
+    var dg=document.getElementById("digitGrid").children;
+    for(var i=0;i<dg.length;i++)dg[i].className=(cfg.digit===i)?"sel":"";
+    document.querySelectorAll('[data-grp="type"]').forEach(function(b){b.className=(cfg.type===b.dataset.id)?"sel":"";});
+    document.querySelectorAll('[data-grp="cond"]').forEach(function(b){b.className=(cfg.cond===b.dataset.id)?"sel":"";});
+  }
+  var scrim=document.getElementById("scrim"),sheet=document.getElementById("sheet");
+  function openSheet(){buildSheet();scrim.classList.add("on");sheet.classList.add("on");}
+  function closeSheet(){scrim.classList.remove("on");sheet.classList.remove("on");}
+  document.getElementById("openCfg").onclick=openSheet;
+  scrim.onclick=closeSheet;
+  document.getElementById("saveCfg").onclick=function(){
+    if(cfg.digit!==null&&!isNaN(cfg.digit))store.set("rv_digit",cfg.digit);
+    store.set("rv_type",cfg.type);store.set("rv_cond",cfg.cond);
+    closeSheet();evaluate();
+  };
+
+  // ---------- carga estado.json (mismo dominio, sin CORS) ----------
+  function loadEstado(){
+    fetch("data/estado.json?ts="+Date.now(),{cache:"no-store"})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(j){estado=j;evaluate();})
+      .catch(function(){estado=null;evaluate();});
+  }
+
+  // ---------- init ----------
+  evaluate();
+  loadEstado();
+  setInterval(evaluate,60000);
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)loadEstado();});
+  if(cfg.digit===null)openSheet();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "fecha": "2026-01-01",
+  "condicion": "desconocido",
+  "digitos_detectados": [],
+  "pdf_url": null,
+  "actualizado_utc": "2026-01-01T00:00:00Z",
+  "ok": false,
+  "nota": "Archivo semilla. Lo reemplaza la GitHub Action al correr por primera vez."
+}
