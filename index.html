@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0048)file:///C:/Users/AU001D6Q/Downloads/index_2.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>¿Circulo hoy?</title>
 
@@ -9,11 +9,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="¿Circulo hoy?">
 <meta name="theme-color" content="#14101f">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%2314101f'/%3E%3Ccircle cx='90' cy='62' r='22' fill='%2334D399'/%3E%3Ccircle cx='90' cy='118' r='22' fill='%23FB7185'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 180 180&#39;%3E%3Crect width=&#39;180&#39; height=&#39;180&#39; rx=&#39;40&#39; fill=&#39;%2314101f&#39;/%3E%3Ccircle cx=&#39;90&#39; cy=&#39;62&#39; r=&#39;22&#39; fill=&#39;%2334D399&#39;/%3E%3Ccircle cx=&#39;90&#39; cy=&#39;118&#39; r=&#39;22&#39; fill=&#39;%23FB7185&#39;/%3E%3C/svg%3E">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./¿Circulo hoy__files/css2" rel="stylesheet">
 
 <style>
   :root{
@@ -119,21 +119,21 @@
 
   <div class="aire" id="aire">
     <span class="lab">Calidad del aire hoy</span>
-    <span class="val c-desconocido" id="aireVal"><span class="chip c-desconocido"></span>—</span>
+    <span class="val c-desconocido" id="aireVal"><span class="chip c-desconocido"></span>Sin dato</span>
   </div>
 
-  <div class="hero" id="hero">
-    <div class="eyebrow" id="dateLine">—</div>
-    <div class="verdict" id="verdict">—</div>
-    <div class="reason" id="reason">Configura tu patente para empezar.</div>
+  <div class="hero go" id="hero">
+    <div class="eyebrow" id="dateLine">miércoles 10 de junio</div>
+    <div class="verdict" id="verdict">Circula</div>
+    <div class="reason" id="reason">Tu dígito <b>6</b> no está restringido hoy.</div>
     <div class="glow"></div>
     <div id="nowSlot"></div>
   </div>
 
   <div class="section-label">Tu semana de restricción</div>
-  <div class="week" id="week"></div>
+  <div class="week" id="week"><div class="day free"><div class="d">lun</div><div class="digs">8 9</div><div class="dot-today"></div></div><div class="day free"><div class="d">mar</div><div class="digs">0 1</div><div class="dot-today"></div></div><div class="day free today"><div class="d">mié</div><div class="digs">2 3</div><div class="dot-today"></div></div><div class="day free"><div class="d">jue</div><div class="digs">4 5</div><div class="dot-today"></div></div><div class="day hit"><div class="d">vie</div><div class="digs">6 7</div><div class="dot-today"></div></div></div>
 
-  <div class="info" id="info"></div>
+  <div class="info" id="info"><div class="card alert"><h3>⚠︎ Episodio no confirmado hoy</h3><p>No se pudo leer la declaración del día. Se asume condición normal. Verifícalo en <a href="https://airerm.mma.gob.cl/calidad-del-aire/" target="_blank">airerm.mma.gob.cl</a>.</p></div><div class="card"><h3>Multa</h3><p>Circular con restricción cuesta entre 1 y 1,5 UTM (aprox. $70.000–$106.000). Más de 400 cámaras cruzan patentes con el Registro Civil.</p></div></div>
 
   <div class="foot">
     Período GEC: 1 mayo – 31 agosto 2026 · L–V (salvo festivos) 07:30–21:00 ·
@@ -220,6 +220,17 @@
     return ' <a href="https://airerm.mma.gob.cl/calidad-del-aire/" target="_blank">'+(txt||"Ver declaración oficial")+'</a>';
   }
 
+  // dígitos restringidos para catalítico antiguo: usa los exactos de la
+  // declaración oficial (incluye los 2 extra de emergencia) si están y son
+  // de hoy; si no, cae al calendario normal.
+  function catSet(dow){
+    if(estado && estado.ok && estado.fecha===ymd(new Date())
+       && estado.catalitico_confiable && Array.isArray(estado.digitos_catalitico)){
+      return {set:estado.digitos_catalitico, exact:true};
+    }
+    return {set:CAL_CAT[dow]||[], exact:false};
+  }
+
   // ---------- render ----------
   function renderAire(){
     var c = (cfg.cond==="auto") ? ((estado&&estado.ok&&estado.fecha===ymd(new Date()))?estado.condicion:"desconocido") : cfg.cond;
@@ -264,13 +275,17 @@
         why="Tu auto catalítico moderno no tiene restricción por dígito"+(epi?", ni siquiera en episodio crítico.":".");
         if(epi) why+=" Aire en <b>"+CONDLABEL[cond]+"</b>: evita esfuerzo físico al aire libre.";
       } else if(cfg.type==="cat_old"){
-        var base=CAL_CAT[dow]||[];
-        if(base.indexOf(cfg.digit)>=0){
+        var cs=catSet(dow), set=cs.set;
+        if(set.indexOf(cfg.digit)>=0){
           state="stop";big="No circula";
-          why="Hoy ("+DAYFULL[dow]+") restringe dígitos <b>"+base.join(" y ")+"</b>. El tuyo es <b>"+cfg.digit+"</b>.";
-        } else if(cond==="emergencia"){
+          why="Hoy ("+DAYFULL[dow]+") restringe dígitos <b>"+set.join(" - ")+"</b>. El tuyo es <b>"+cfg.digit+"</b>.";
+          if(cond==="emergencia"&&cs.exact) why+=" (Emergencia: 4 dígitos, según la declaración oficial.)";
+        } else if(cond==="emergencia"&&!cs.exact){
           state="warn";big="Verifica";
-          why="<b>Emergencia ambiental.</b> A los catalíticos antiguos se les restringen <b>4 dígitos</b> (2 además del par normal). Confirma los dígitos del día."+pdfLink();
+          why="<b>Emergencia ambiental.</b> A los catalíticos antiguos se les restringen <b>4 dígitos</b> (2 además del par normal) y aún no pude leer cuáles. Confírmalos."+pdfLink();
+        } else if(cond==="emergencia"&&cs.exact){
+          state="go";big="Circula";
+          why="<b>Emergencia ambiental.</b> Hoy restringe <b>"+set.join(" - ")+"</b> (según la declaración oficial). El tuyo es <b>"+cfg.digit+"</b>, así que puedes circular."+pdfLink("Confirmar");
         } else {
           state="go";big="Circula";
           why="Tu dígito <b>"+cfg.digit+"</b> no está restringido hoy"+(epi?" (en "+CONDLABEL[cond]+" los catalíticos antiguos mantienen el mismo par).":".");
@@ -381,5 +396,6 @@
   if(cfg.digit===null)openSheet();
 })();
 </script>
-</body>
-</html>
+
+
+</body></html>
