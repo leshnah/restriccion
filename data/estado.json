@@ -1,9 +1,9 @@
 {
-  "fecha": "2026-06-17",
+  "fecha": "2026-06-18",
   "condicion": "preemergencia",
   "digitos_catalitico": [
-    2,
-    3
+    4,
+    5
   ],
   "catalitico_confiable": true,
   "digitos_detectados": [
@@ -20,43 +20,33 @@
       9
     ],
     [
-      4,
-      5,
-      6,
-      7,
-      2,
-      3
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      4,
-      5,
-      6,
-      7,
-      2,
-      3
-    ],
-    [
-      4,
-      5,
-      6,
-      7,
-      2,
-      3
+      8,
+      9,
+      0,
+      1
     ],
     [
       4,
       5
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      8,
+      9,
+      0,
+      1
+    ],
+    [
+      8,
+      9,
+      0,
+      1
     ]
   ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-17.pdf",
-  "actualizado_utc": "2026-06-17T18:10:39Z",
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-18.pdf",
+  "actualizado_utc": "2026-06-18T06:15:36Z",
   "ok": true
 }
