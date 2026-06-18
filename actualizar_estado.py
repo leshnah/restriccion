@@ -8,7 +8,6 @@ MI_TIPO   = "cat_old"  # cat_old = catalítico antiguo (tu caso)
 
 TZ_CL = timezone(timedelta(hours=-4))
 BASE = "https://airerm.mma.gob.cl/wp-content/uploads"
-KEYS = ["EMERGENCIA","PREEMERGENCIA","ALERTA","REGULAR","BUENO","BUENA"]
 CAL_CAT = {1:[8,9],2:[0,1],3:[2,3],4:[4,5],5:[6,7]}
 FERIADOS = {"2026-05-01","2026-05-21","2026-06-20","2026-06-29","2026-07-16","2026-08-15"}
 DIA = {1:"lunes",2:"martes",3:"miércoles",4:"jueves",5:"viernes",6:"sábado",7:"domingo"}
@@ -33,35 +32,29 @@ def fetch_pdf_text(url):
     reader = PdfReader(io.BytesIO(data))
     return "\n".join((p.extract_text() or "") for p in reader.pages)
 
-def parse_condicion(t):
-    # Cuenta cada condición como token EN MAYÚSCULAS y aislado. Inmune al
-    # desorden con que el lector de PDF entrega el texto. El legend en minúsculas
-    # ("Regular / bajo") no cuenta; "EMERGENCIA" dentro de "PREEMERGENCIA" tampoco.
-    def count(k):
-        return len(re.findall(r"(?<![0-9A-ZÁÉÍÓÚ])"+k+r"(?![0-9A-ZÁÉÍÓÚ])", t))
-    c = {k: count(k) for k in KEYS}
-    c["BUENO"] += c.pop("BUENA")
-    ordered = sorted(c.items(), key=lambda kv: kv[1], reverse=True)
-    top, topn = ordered[0]
-    secn = ordered[1][1] if len(ordered) > 1 else 0
-    # La condición real se declara 2 veces; una etiqueta suelta de la tabla suma
-    # a lo más 1. Ganador claro: >=2 y por sobre el resto.
-    if topn >= 2 and topn > secn:
-        return top.lower()
-    # Empate o sólo sueltas: anclar al texto "prevista:".
-    m = re.search(r"prevista:\s*([A-ZÁÉÍÓÚ]{5,14})", t)
-    if m:
-        v = "BUENO" if m.group(1) == "BUENA" else m.group(1)
-        if v in c:
-            return v.lower()
-    return None  # desconocido
+def parse_digitos(text):
+    t = re.sub(r'\s*-\s*', '-', text)   # une "8 - 9" -> "8-9" por si viene espaciado
+    return [list(map(int, g.split("-"))) for g in re.findall(r"(?<!\d)(\d(?:-\d){1,9})(?!\d)", t)]
+
+def parse_condicion(text):
+    # Detección por DÍGITOS (robusta al desorden/espaciado del PDF):
+    # sin sello fuera del anillo => 4 normal / 6 preemergencia / 8 emergencia.
+    # Las palabras solo se usan para la etiqueta cosmética en días sin episodio.
+    grupos = parse_digitos(text)
+    if not grupos:
+        return None  # no se pudo leer la tabla -> desconocido
+    no10 = [len(g) for g in grupos if len(g) != 10]  # excluye total interior (0-9)
+    mx = max(no10) if no10 else 0
+    if mx >= 8: return "emergencia"
+    if mx >= 6: return "preemergencia"
+    def cnt(k): return len(re.findall(r"(?<![0-9A-ZÁÉÍÓÚ])"+k+r"(?![0-9A-ZÁÉÍÓÚ])", text))
+    cand = {"alerta":cnt("ALERTA"), "bueno":cnt("BUENO")+cnt("BUENA"), "regular":cnt("REGULAR")}
+    best = max(cand, key=lambda x: cand[x])
+    return best if cand[best] > 0 else "regular"
 
 def parse_fecha(t):
     m = re.search(r"(LUNES|MARTES|MI[ÉE]RCOLES|JUEVES|VIERNES|S[ÁA]BADO|DOMINGO)\s+(\d{2})/(\d{2})/(\d{4})", t, re.I)
     return date(int(m.group(4)), int(m.group(3)), int(m.group(2))) if m else None
-
-def parse_digitos(t):
-    return [list(map(int, g.split("-"))) for g in re.findall(r"\b(\d(?:-\d){1,9})\b", t)]
 
 def catalitico_digits(text, target, condicion):
     iso = target.isoweekday()
