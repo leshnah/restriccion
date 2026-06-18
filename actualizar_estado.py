@@ -1,10 +1,18 @@
 import io, json, re, sys, os, urllib.request
 from datetime import datetime, timedelta, timezone, date
 
+# ====== CONFIGURA TU AUTO (cambia el dígito por el de TU patente) ======
+MI_DIGITO = 6          # <-- pon aquí el último dígito de tu patente (0 a 9)
+MI_TIPO   = "cat_old"  # cat_old = catalítico antiguo (tu caso)
+# ======================================================================
+
 TZ_CL = timezone(timedelta(hours=-4))
 BASE = "https://airerm.mma.gob.cl/wp-content/uploads"
-SEV = {"emergencia":5,"preemergencia":4,"alerta":3,"regular":2,"bueno":1}
+KEYS = ["EMERGENCIA","PREEMERGENCIA","ALERTA","REGULAR","BUENO","BUENA"]
 CAL_CAT = {1:[8,9],2:[0,1],3:[2,3],4:[4,5],5:[6,7]}
+FERIADOS = {"2026-05-01","2026-05-21","2026-06-20","2026-06-29","2026-07-16","2026-08-15"}
+DIA = {1:"lunes",2:"martes",3:"miércoles",4:"jueves",5:"viernes",6:"sábado",7:"domingo"}
+MES = {1:"enero",2:"febrero",3:"marzo",4:"abril",5:"mayo",6:"junio",7:"julio",8:"agosto",9:"septiembre",10:"octubre",11:"noviembre",12:"diciembre"}
 
 def candidate_urls(d):
     prev = d - timedelta(days=1)
@@ -25,19 +33,28 @@ def fetch_pdf_text(url):
     reader = PdfReader(io.BytesIO(data))
     return "\n".join((p.extract_text() or "") for p in reader.pages)
 
-def norm(s):
-    s = s.lower(); return "bueno" if s == "buena" else s
-
 def parse_condicion(t):
-    m = re.search(r"prevista:\s*\n?\s*(EMERGENCIA|PREEMERGENCIA|ALERTA|REGULAR|BUEN[OA])", t, re.I)
-    if m: return norm(m.group(1))
-    m = re.search(r"M\s*E\s*D\s*I\s*D\s*A\s*S\s*\n?\s*(EMERGENCIA|PREEMERGENCIA|ALERTA|REGULAR|BUEN[OA])", t, re.I)
-    if m: return norm(m.group(1))
-    best, bs = None, 0
-    for k in SEV:
-        if re.search(r"\b"+k+r"\b", t, re.I) and SEV[k] > bs:
-            bs = SEV[k]; best = k
-    return best
+    # Cuenta cada condición como token EN MAYÚSCULAS y aislado. Inmune al
+    # desorden con que el lector de PDF entrega el texto. El legend en minúsculas
+    # ("Regular / bajo") no cuenta; "EMERGENCIA" dentro de "PREEMERGENCIA" tampoco.
+    def count(k):
+        return len(re.findall(r"(?<![0-9A-ZÁÉÍÓÚ])"+k+r"(?![0-9A-ZÁÉÍÓÚ])", t))
+    c = {k: count(k) for k in KEYS}
+    c["BUENO"] += c.pop("BUENA")
+    ordered = sorted(c.items(), key=lambda kv: kv[1], reverse=True)
+    top, topn = ordered[0]
+    secn = ordered[1][1] if len(ordered) > 1 else 0
+    # La condición real se declara 2 veces; una etiqueta suelta de la tabla suma
+    # a lo más 1. Ganador claro: >=2 y por sobre el resto.
+    if topn >= 2 and topn > secn:
+        return top.lower()
+    # Empate o sólo sueltas: anclar al texto "prevista:".
+    m = re.search(r"prevista:\s*([A-ZÁÉÍÓÚ]{5,14})", t)
+    if m:
+        v = "BUENO" if m.group(1) == "BUENA" else m.group(1)
+        if v in c:
+            return v.lower()
+    return None  # desconocido
 
 def parse_fecha(t):
     m = re.search(r"(LUNES|MARTES|MI[ÉE]RCOLES|JUEVES|VIERNES|S[ÁA]BADO|DOMINGO)\s+(\d{2})/(\d{2})/(\d{4})", t, re.I)
@@ -59,6 +76,32 @@ def catalitico_digits(text, target, condicion):
     confiable = True if condicion == "emergencia" else (chosen == sorted(pair))
     return chosen, confiable
 
+def en_temporada(d):
+    return date(2026,5,1) <= d <= date(2026,8,31)
+
+def construir_mensaje(estado, digit, tipo, target):
+    iso = target.isoweekday(); ds = target.strftime("%Y-%m-%d")
+    fecha_txt = f"{DIA[iso]} {target.day} de {MES[target.month]}"
+    cond = estado.get("condicion","desconocido")
+    if iso in (6,7):             return f"✅ {fecha_txt}: circulas (fin de semana)."
+    if ds in FERIADOS:           return f"✅ {fecha_txt}: circulas (feriado)."
+    if not en_temporada(target): return f"✅ {fecha_txt}: circulas (fuera de temporada)."
+    if tipo == "cat_new":
+        ex = f" Aire: {cond}, evita esfuerzo físico al aire libre." if cond in ("preemergencia","emergencia") else ""
+        return f"✅ {fecha_txt}: circulas (catalítico moderno).{ex}"
+    if tipo == "cat_old":
+        if estado.get("catalitico_confiable") and estado.get("digitos_catalitico") and estado.get("fecha")==ds:
+            restr = estado["digitos_catalitico"]
+        else:
+            restr = CAL_CAT.get(iso, [])
+        rtxt = "-".join(str(x) for x in restr)
+        if digit in restr:
+            emer = " (emergencia)" if cond=="emergencia" else ""
+            return f"🚫 {fecha_txt}: NO circulas hoy{emer}. Restringe {rtxt}; el tuyo es {digit}."
+        emer = " ¡Hay EMERGENCIA ambiental!" if cond=="emergencia" else ""
+        return f"✅ {fecha_txt}: circulas hoy (restringe {rtxt}, no el {digit}). Aire: {cond}.{emer}"
+    return f"⚠️ {fecha_txt}: revisa la app. Aire: {cond}."
+
 def build_estado(target_date):
     last_err = None
     for url in candidate_urls(target_date):
@@ -70,27 +113,26 @@ def build_estado(target_date):
             return {
                 "fecha": fecha.strftime("%Y-%m-%d"),
                 "condicion": cond or "desconocido",
-                "digitos_catalitico": cat,
-                "catalitico_confiable": bool(cat_ok),
-                "digitos_detectados": parse_digitos(txt),
-                "pdf_url": url,
+                "digitos_catalitico": cat, "catalitico_confiable": bool(cat_ok),
+                "digitos_detectados": parse_digitos(txt), "pdf_url": url,
                 "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "ok": cond is not None,
             }
         except Exception as e:
             last_err = str(e); continue
-    return {
-        "fecha": target_date.strftime("%Y-%m-%d"), "condicion": "desconocido",
-        "digitos_catalitico": None, "catalitico_confiable": False,
-        "digitos_detectados": [], "pdf_url": None,
-        "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "ok": False, "error": last_err,
-    }
+    return {"fecha": target_date.strftime("%Y-%m-%d"), "condicion":"desconocido",
+            "digitos_catalitico":None,"catalitico_confiable":False,"digitos_detectados":[],
+            "pdf_url":None,"actualizado_utc":datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "ok":False,"error":last_err}
 
 if __name__ == "__main__":
     hoy = datetime.now(TZ_CL).date()
     estado = build_estado(hoy)
+    mensaje = construir_mensaje(estado, MI_DIGITO, MI_TIPO, hoy)
+    estado["mensaje"] = mensaje
     os.makedirs("data", exist_ok=True)
     with open("data/estado.json", "w", encoding="utf-8") as f:
         json.dump(estado, f, ensure_ascii=False, indent=2)
-    print(json.dumps(estado, ensure_ascii=False))
+    with open("data/aviso.txt", "w", encoding="utf-8") as f:
+        f.write(mensaje)
+    print(mensaje)
