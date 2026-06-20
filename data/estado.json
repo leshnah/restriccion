@@ -1,53 +1,11 @@
 {
-  "fecha": "2026-06-19",
-  "condicion": "regular",
-  "digitos_catalitico": [
-    6,
-    7
-  ],
-  "catalitico_confiable": true,
-  "digitos_detectados": [
-    [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ],
-    [
-      6,
-      7
-    ],
-    [
-      6,
-      7
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ]
-  ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-19.pdf",
-  "actualizado_utc": "2026-06-19T17:50:14Z",
-  "ok": true,
-  "mensaje": "🚫 viernes 19 de junio: NO circulas hoy. Restringe 6-7; el tuyo es 6."
+  "fecha": "2026-06-20",
+  "condicion": "desconocido",
+  "digitos_catalitico": null,
+  "catalitico_confiable": false,
+  "digitos_detectados": [],
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-20.pdf",
+  "actualizado_utc": "2026-06-20T05:49:41Z",
+  "ok": false,
+  "mensaje": "✅ sábado 20 de junio: circulas (fin de semana)."
 }
