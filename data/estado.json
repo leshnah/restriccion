@@ -1,12 +1,38 @@
 {
-  "fecha": "2026-06-24",
+  "fecha": "2026-06-25",
   "condicion": "regular",
   "digitos_catalitico": [
-    2,
-    3
+    4,
+    5
   ],
   "catalitico_confiable": true,
   "digitos_detectados": [
+    [
+      8,
+      9,
+      0,
+      1
+    ],
+    [
+      8,
+      9,
+      0,
+      1
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      8,
+      9,
+      0,
+      1
+    ],
     [
       0,
       1,
@@ -18,36 +44,10 @@
       7,
       8,
       9
-    ],
-    [
-      4,
-      5,
-      6,
-      7
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      4,
-      5,
-      6,
-      7
-    ],
-    [
-      4,
-      5,
-      6,
-      7
     ]
   ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-24.pdf",
-  "actualizado_utc": "2026-06-24T17:49:00Z",
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/06/Declaracion-GEC-2026-06-25.pdf",
+  "actualizado_utc": "2026-06-25T05:36:14Z",
   "ok": true,
-  "mensaje": "✅ miércoles 24 de junio: circulas hoy (restringe 2-3, no el 6). Aire: regular."
+  "mensaje": "✅ jueves 25 de junio: circulas hoy (restringe 4-5, no el 6). Aire: regular."
 }
