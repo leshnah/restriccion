@@ -1,11 +1,11 @@
 {
-  "fecha": "2026-07-04",
+  "fecha": "2026-07-05",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-04.pdf",
-  "actualizado_utc": "2026-07-04T16:57:17Z",
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-05.pdf",
+  "actualizado_utc": "2026-07-05T05:31:59Z",
   "ok": false,
-  "mensaje": "✅ sábado 4 de julio: circulas (fin de semana)."
+  "mensaje": "✅ domingo 5 de julio: circulas (fin de semana)."
 }
