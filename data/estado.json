@@ -1,53 +1,11 @@
 {
-  "fecha": "2026-07-17",
-  "condicion": "bueno",
-  "digitos_catalitico": [
-    6,
-    7
-  ],
-  "catalitico_confiable": true,
-  "digitos_detectados": [
-    [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ],
-    [
-      6,
-      7
-    ],
-    [
-      6,
-      7
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ],
-    [
-      2,
-      3,
-      4,
-      5
-    ]
-  ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-17.pdf",
-  "actualizado_utc": "2026-07-17T17:05:12Z",
-  "ok": true,
-  "mensaje": "🚫 viernes 17 de julio: NO circulas hoy. Restringe 6-7; el tuyo es 6."
+  "fecha": "2026-07-18",
+  "condicion": "desconocido",
+  "digitos_catalitico": null,
+  "catalitico_confiable": false,
+  "digitos_detectados": [],
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-18.pdf",
+  "actualizado_utc": "2026-07-18T04:21:23Z",
+  "ok": false,
+  "mensaje": "✅ sábado 18 de julio: circulas (fin de semana)."
 }
