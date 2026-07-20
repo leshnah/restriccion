@@ -1,11 +1,53 @@
 {
-  "fecha": "2026-07-19",
-  "condicion": "desconocido",
-  "digitos_catalitico": null,
-  "catalitico_confiable": false,
-  "digitos_detectados": [],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-19.pdf",
-  "actualizado_utc": "2026-07-19T16:50:19Z",
-  "ok": false,
-  "mensaje": "✅ domingo 19 de julio: circulas (fin de semana)."
+  "fecha": "2026-07-20",
+  "condicion": "regular",
+  "digitos_catalitico": [
+    8,
+    9
+  ],
+  "catalitico_confiable": true,
+  "digitos_detectados": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    [
+      6,
+      7,
+      8,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      6,
+      7,
+      8,
+      9
+    ],
+    [
+      6,
+      7,
+      8,
+      9
+    ]
+  ],
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-20.pdf",
+  "actualizado_utc": "2026-07-20T05:00:36Z",
+  "ok": true,
+  "mensaje": "✅ lunes 20 de julio: circulas hoy (restringe 8-9, no el 6). Aire: regular."
 }
