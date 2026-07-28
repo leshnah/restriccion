@@ -1,9 +1,9 @@
 {
-  "fecha": "2026-07-27",
+  "fecha": "2026-07-28",
   "condicion": "regular",
   "digitos_catalitico": [
-    8,
-    9
+    0,
+    1
   ],
   "catalitico_confiable": true,
   "digitos_detectados": [
@@ -20,34 +20,34 @@
       9
     ],
     [
-      6,
-      7,
-      8,
-      9
+      0,
+      1,
+      2,
+      3
     ],
     [
-      8,
-      9
+      0,
+      1
     ],
     [
-      8,
-      9
+      0,
+      1
     ],
     [
-      6,
-      7,
-      8,
-      9
+      0,
+      1,
+      2,
+      3
     ],
     [
-      6,
-      7,
-      8,
-      9
+      0,
+      1,
+      2,
+      3
     ]
   ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-27.pdf",
-  "actualizado_utc": "2026-07-27T17:37:39Z",
+  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/07/Declaracion-GEC-2026-07-28.pdf",
+  "actualizado_utc": "2026-07-28T04:38:17Z",
   "ok": true,
-  "mensaje": "✅ lunes 27 de julio: circulas hoy (restringe 8-9, no el 6). Aire: regular."
+  "mensaje": "✅ martes 28 de julio: circulas hoy (restringe 0-1, no el 6). Aire: regular."
 }
