@@ -1,53 +1,12 @@
 {
-  "fecha": "2026-08-31",
-  "condicion": "regular",
-  "digitos_catalitico": [
-    8,
-    9
-  ],
-  "catalitico_confiable": true,
-  "digitos_detectados": [
-    [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      0
-    ],
-    [
-      6,
-      7,
-      8,
-      9
-    ],
-    [
-      8,
-      9
-    ],
-    [
-      8,
-      9
-    ],
-    [
-      6,
-      7,
-      8,
-      9
-    ],
-    [
-      6,
-      7,
-      8,
-      9
-    ]
-  ],
-  "pdf_url": "https://airerm.mma.gob.cl/wp-content/uploads/2026/08/Declaracion-GEC-2026-08-31.pdf",
-  "actualizado_utc": "2026-08-31T21:14:51Z",
-  "ok": true,
-  "mensaje": "✅ lunes 31 de agosto: circulas hoy (restringe 8-9, no el 6). Aire: regular."
+  "fecha": "2026-09-01",
+  "condicion": "desconocido",
+  "digitos_catalitico": null,
+  "catalitico_confiable": false,
+  "digitos_detectados": [],
+  "pdf_url": null,
+  "actualizado_utc": "2026-09-01T06:25:32Z",
+  "ok": false,
+  "error": "HTTP Error 404: Not Found",
+  "mensaje": "✅ martes 1 de septiembre: circulas (fuera de temporada)."
 }
