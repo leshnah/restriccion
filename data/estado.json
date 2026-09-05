@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-09-04",
+  "fecha": "2026-09-05",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-04T18:44:36Z",
+  "actualizado_utc": "2026-09-05T05:59:16Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ viernes 4 de septiembre: circulas (fuera de temporada)."
+  "mensaje": "✅ sábado 5 de septiembre: circulas (fin de semana)."
 }
