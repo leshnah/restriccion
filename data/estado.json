@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-09-05",
+  "fecha": "2026-09-06",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-05T17:50:38Z",
+  "actualizado_utc": "2026-09-06T06:11:36Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ sábado 5 de septiembre: circulas (fin de semana)."
+  "mensaje": "✅ domingo 6 de septiembre: circulas (fin de semana)."
 }
