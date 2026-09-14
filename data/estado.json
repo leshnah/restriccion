@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-09-13",
+  "fecha": "2026-09-14",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-13T18:27:23Z",
+  "actualizado_utc": "2026-09-14T06:37:42Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ domingo 13 de septiembre: circulas (fin de semana)."
+  "mensaje": "✅ lunes 14 de septiembre: circulas (fuera de temporada)."
 }
