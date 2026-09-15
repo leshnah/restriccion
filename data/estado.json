@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-09-14",
+  "fecha": "2026-09-15",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-14T20:06:20Z",
+  "actualizado_utc": "2026-09-15T06:21:00Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ lunes 14 de septiembre: circulas (fuera de temporada)."
+  "mensaje": "✅ martes 15 de septiembre: circulas (fuera de temporada)."
 }
