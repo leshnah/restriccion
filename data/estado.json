@@ -5,8 +5,8 @@
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-25T15:24:06Z",
+  "actualizado_utc": "2026-09-25T19:44:50Z",
   "ok": false,
-  "error": "<urlopen error [Errno -3] Temporary failure in name resolution>",
+  "error": "HTTP Error 404: Not Found",
   "mensaje": "✅ viernes 25 de septiembre: circulas (fuera de temporada)."
 }
