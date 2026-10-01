@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-09-30",
+  "fecha": "2026-10-01",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-09-30T20:26:32Z",
+  "actualizado_utc": "2026-10-01T07:25:24Z",
   "ok": false,
-  "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ miércoles 30 de septiembre: circulas (fuera de temporada)."
+  "error": "HTTP Error 500: Internal Server Error",
+  "mensaje": "✅ jueves 1 de octubre: circulas (fuera de temporada)."
 }
