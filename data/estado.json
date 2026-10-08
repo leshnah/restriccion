@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-10-07",
+  "fecha": "2026-10-08",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-10-07T20:56:12Z",
+  "actualizado_utc": "2026-10-08T07:42:21Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ miércoles 7 de octubre: circulas (fuera de temporada)."
+  "mensaje": "✅ jueves 8 de octubre: circulas (fuera de temporada)."
 }
