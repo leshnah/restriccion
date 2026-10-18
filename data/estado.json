@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-10-17",
+  "fecha": "2026-10-18",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-10-17T18:04:44Z",
+  "actualizado_utc": "2026-10-18T06:13:45Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ sábado 17 de octubre: circulas (fin de semana)."
+  "mensaje": "✅ domingo 18 de octubre: circulas (fin de semana)."
 }
