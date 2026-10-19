@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-10-18",
+  "fecha": "2026-10-19",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-10-18T18:24:00Z",
+  "actualizado_utc": "2026-10-19T06:27:45Z",
   "ok": false,
-  "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ domingo 18 de octubre: circulas (fin de semana)."
+  "error": "<urlopen error timed out>",
+  "mensaje": "✅ lunes 19 de octubre: circulas (fuera de temporada)."
 }
