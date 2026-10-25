@@ -5,8 +5,8 @@
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-10-25T14:29:04Z",
+  "actualizado_utc": "2026-10-25T18:39:59Z",
   "ok": false,
-  "error": "HTTP Error 404: Not Found",
+  "error": "<urlopen error timed out>",
   "mensaje": "✅ domingo 25 de octubre: circulas (fin de semana)."
 }
