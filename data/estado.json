@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-11-13",
+  "fecha": "2026-11-14",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-11-13T21:45:03Z",
+  "actualizado_utc": "2026-11-14T07:45:57Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ viernes 13 de noviembre: circulas (fuera de temporada)."
+  "mensaje": "✅ sábado 14 de noviembre: circulas (fin de semana)."
 }
