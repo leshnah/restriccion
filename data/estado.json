@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-11-14",
+  "fecha": "2026-11-15",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-11-14T20:16:27Z",
+  "actualizado_utc": "2026-11-15T08:03:33Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ sábado 14 de noviembre: circulas (fin de semana)."
+  "mensaje": "✅ domingo 15 de noviembre: circulas (fin de semana)."
 }
