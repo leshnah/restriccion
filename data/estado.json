@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-11-23",
+  "fecha": "2026-11-24",
   "condicion": "desconocido",
   "digitos_catalitico": null,
   "catalitico_confiable": false,
   "digitos_detectados": [],
   "pdf_url": null,
-  "actualizado_utc": "2026-11-24T02:42:23Z",
+  "actualizado_utc": "2026-11-24T11:17:14Z",
   "ok": false,
   "error": "HTTP Error 404: Not Found",
-  "mensaje": "✅ lunes 23 de noviembre: circulas (fuera de temporada)."
+  "mensaje": "✅ martes 24 de noviembre: circulas (fuera de temporada)."
 }
